@@ -1,48 +1,49 @@
-/*──────────────────────────────────────────────────────────────────────────
-  1) Font + variables
-  2) 2‑row grid
-  3) Wrap Tasks+Influences (left) and Feelings+Pain-Goals (right)
-──────────────────────────────────────────────────────────────────────────*/
+/* 1) Font + variables */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
-  --bg-top:   #122138;  /* About + Summary */
-  --bg-bot:   #091124;  /* Blocks below */
-  --accent:   #E3963F;
-  --text:     #EEEEEE;
-  --text-med: #CCCCCC;
-  --dot:      #B5D32E;
+  --bg-top:    #122138;  /* About + Summary */
+  --bg-bot:    #091124;  /* All merged lower sections */
+  --accent:    #E3963F;
+  --text:      #EEEEEE;
+  --text-med:  #CCCCCC;
+  --dot:       #B5D32E;
 }
 
-*, *::before, *::after { box-sizing: border-box; }
-html, body {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* fill viewport */
+html,
+body {
   height: 100%;
   margin: 0;
-}
-body {
   font-family: 'Poppins', sans-serif;
   background-color: var(--bg-bot);
   color: var(--text);
 }
 
-/*──────────────────────────────────────────────────────────────────────────
-  Container grid: 3 cols, 2 rows (auto, auto), fill viewport height
-──────────────────────────────────────────────────────────────────────────*/
+/*────────────────────────────────────────────────────────────────────────────
+  Main grid: no gaps, full‑height
+────────────────────────────────────────────────────────────────────────────*/
 .persona-container {
   display: grid;
   grid-template-columns: 4fr 3fr 3fr;
-  grid-template-rows: auto auto;
+  grid-template-rows: max-content 1fr;
   gap: 0;
-  height: 100vh;
+  min-height: 100vh;
 }
 
-/*──────────────────────────────────────────────────────────────────────────
-  Photo + gradient + overlay
-──────────────────────────────────────────────────────────────────────────*/
+/*────────────────────────────────────────────────────────────────────────────
+  Photo + name overlay + gradient
+────────────────────────────────────────────────────────────────────────────*/
 .photo-container {
   position: relative;
   grid-column: 1;
-  grid-row: 1 / span 2;
+  grid-row: 1 / span 3;
   overflow: hidden;
   align-self: stretch;
 }
@@ -52,28 +53,30 @@ body {
   object-fit: cover;
   display: block;
 }
-/* bottom gradient */
 .photo-container::after {
-  content: '';
+  content: "";
   position: absolute;
-  bottom: 0; left: 0;
-  width: 100%; height: 30%;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  opacity: 75%;
   background: linear-gradient(
-    to top,
-    rgba(228,97,90,0.85) 0%,
-    rgba(222,115,109,0.65) 35%,
-    transparent 100%
+    0deg,
+    rgba(228, 97, 90, 0.85) 0%,
+    rgba(222, 115, 109, 0.65) 35%,
+    rgba(214, 60, 52, 0) 100%
   );
   z-index: 1;
 }
-/* name above gradient */
 .name-overlay {
   position: absolute;
-  bottom: 1rem; left: 50%;
+  bottom: 1rem;
+  left: 50%;
   transform: translateX(-50%);
   width: calc(100% - 2rem);
   text-align: center;
-  color: #fff;
+  color: #FFF;
   text-shadow: 0 0 6px rgba(0,0,0,0.5);
   z-index: 2;
 }
@@ -83,22 +86,32 @@ body {
   font-weight: 700;
 }
 .name-overlay p {
-  margin: .25rem 0 0;
-  font-style: italic;
+  margin: 0.25rem 0 0;
   font-size: 1.2rem;
+  font-style: italic;
 }
 
-/*──────────────────────────────────────────────────────────────────────────
-  ABOUT (row 1, col 2)
-──────────────────────────────────────────────────────────────────────────*/
+/*────────────────────────────────────────────────────────────────────────────
+  Top‑row sections: ABOUT + SUMMARY
+────────────────────────────────────────────────────────────────────────────*/
 .about {
-  /* grid-column: 2;
-  grid-row: 1; */
+  grid-column: 2;
+  grid-row: 1;
   background-color: var(--bg-top);
   padding: 2rem;
 }
+.summary {
+  grid-column: 3;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-top);
+  padding: 2rem;
+}
+
+/* ABOUT styling */
 .about h2 {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   color: var(--accent);
   font-size: 1.25rem;
   letter-spacing: 1px;
@@ -108,26 +121,16 @@ body {
   color: var(--text-med);
 }
 
-/*──────────────────────────────────────────────────────────────────────────
-  SUMMARY (row 1, col 3)
-──────────────────────────────────────────────────────────────────────────*/
-.summary {
-  /* grid-column: 3;
-  grid-row: 1; */
-  background-color: var(--bg-top);
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-}
+/* SUMMARY styling */
 .summary .field {
   display: flex;
   justify-content: space-between;
-  margin-bottom: .75rem;
+  margin-bottom: 0.75rem;
   border-bottom: 1px solid #4A5569;
 }
 .summary .label {
   font-style: italic;
-  font-size: .9rem;
+  font-size: 0.9rem;
 }
 .summary .value {
   font-weight: 500;
@@ -141,132 +144,89 @@ body {
   margin-left: 4px;
 }
 
-/*──────────────────────────────────────────────────────────────────────────
-  LEFT BLOCK: Tasks + Influences (row 2, col 2)
-──────────────────────────────────────────────────────────────────────────*/
-.left-block {
+/*────────────────────────────────────────────────────────────────────────────
+  Generic headings & list bullets
+────────────────────────────────────────────────────────────────────────────*/
+h2 {
+  margin-bottom: 0.75rem;
+  color: var(--accent);
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+ul {
+  padding-left: 1rem;
+  margin: 0;
+}
+li {
+  position: relative;
+  margin-bottom: 0.5rem;
+  padding-left: 1.2rem;
+  color: var(--text-med);
+}
+li::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background-color: var(--dot);
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  transform: translateY(-50%);
+}
+
+/*────────────────────────────────────────────────────────────────────────────
+  Tasks+Influences wrapper
+────────────────────────────────────────────────────────────────────────────*/
+.tasks-influences {
   grid-column: 2;
-  grid-row: 2;
-  display: grid;
-  gap: 1.5rem;
+  grid-row: 2 / span 2;
   background-color: var(--bg-bot);
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
-.left-block h2 {
-  color: var(--accent);
-  font-size: 1.25rem;
-  margin-bottom: .75rem;
-  letter-spacing: 1px;
-}
-.left-block ul {
-  padding-left: 1rem;
-  margin: 0;
-}
-.left-block li {
-  position: relative;
-  margin-bottom: .5rem;
-  padding-left: 1.2rem;
-  color: var(--text-med);
-}
-.left-block li::before {
-  content: '';
-  width: 8px; height: 8px;
-  background-color: var(--dot);
-  border-radius: 50%;
-  position: absolute;
-  left: 0; top: .65em;
-  transform: translateY(-50%);
+/* preserve individual styling inside */
+.tasks-influences .tasks,
+.tasks-influences .influences {
+  /* no additional bg/padding needed here */
 }
 
-/*──────────────────────────────────────────────────────────────────────────
-  RIGHT BLOCK: Feelings + Pain‑Goals (row 2, col 3)
-──────────────────────────────────────────────────────────────────────────*/
-.right-block {
+/*────────────────────────────────────────────────────────────────────────────
+  Feelings+Pain‑Goals wrapper
+────────────────────────────────────────────────────────────────────────────*/
+.feelings-pain-goals-wrapper {
   grid-column: 3;
-  grid-row: 2;
-  display: grid;
-  gap: 1.5rem;
+  grid-row: 2 / span 2;
   background-color: var(--bg-bot);
   padding: 2rem;
-}
-/* Feelings share the same list styling as left-block */
-.right-block .feelings h2 {
-  color: var(--accent);
-  font-size: 1.25rem;
-  margin-bottom: .75rem;
-  letter-spacing: 1px;
-}
-.right-block .feelings ul {
-  padding-left: 1rem;
-  margin: 0;
-}
-.right-block .feelings li {
-  position: relative;
-  margin-bottom: .5rem;
-  padding-left: 1.2rem;
-  color: var(--text-med);
-}
-.right-block .feelings li::before {
-  content: '';
-  width: 8px; height: 8px;
-  background-color: var(--dot);
-  border-radius: 50%;
-  position: absolute;
-  left: 0; top: .65em;
-  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-/* Pain‑Points & Goals stacked inside right-block */
-.pain-goals {
+.feelings-pain-goals-wrapper .pain-goals {
   display: flex;
   flex-direction: column;
 }
-.pain-goals .pain-points,
-.pain-goals .goals {
-  margin-top: 0;
-}
-.pain-goals .goals {
+.feelings-pain-goals-wrapper .pain-goals .goals {
   margin-top: 1.5rem;
 }
-.pain-goals h2 {
-  color: var(--accent);
-  font-size: 1.25rem;
-  margin-bottom: .75rem;
-  letter-spacing: 1px;
-}
-.pain-goals ul {
-  padding-left: 1rem;
-  margin: 0;
-}
-.pain-goals li {
-  position: relative;
-  margin-bottom: .5rem;
-  padding-left: 1.2rem;
-  color: var(--text-med);
-}
-.pain-goals li::before {
-  content: '';
-  width: 8px; height: 8px;
-  background-color: var(--dot);
-  border-radius: 50%;
-  position: absolute;
-  left: 0; top: .65em;
-  transform: translateY(-50%);
-}
 
-/*──────────────────────────────────────────────────────────────────────────
-  Responsive: single column
-──────────────────────────────────────────────────────────────────────────*/
+/*────────────────────────────────────────────────────────────────────────────
+  Responsive: collapse to single‑column
+────────────────────────────────────────────────────────────────────────────*/
 @media (max-width: 768px) {
   .persona-container {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto;
   }
-  .photo-container,
   .about,
   .summary,
-  .left-block,
-  .right-block {
+  .tasks-influences,
+  .feelings-pain-goals-wrapper {
     grid-column: 1 !important;
     grid-row: auto !important;
   }
