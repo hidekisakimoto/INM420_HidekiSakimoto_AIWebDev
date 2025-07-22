@@ -1,210 +1,273 @@
+/*──────────────────────────────────────────────────────────────────────────
+  1) Font + variables
+  2) 2‑row grid
+  3) Wrap Tasks+Influences (left) and Feelings+Pain-Goals (right)
+──────────────────────────────────────────────────────────────────────────*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 :root {
-  --primary-bg: #19223a;
-  --accent-color: #ff9900;
-  --text-light: #ffffff;
-  --text-gray: #e4e7ec;
-  --bullet-green: #55ff7f;
-  --highlight-yellow: #ffb900;
-  --secondary-bg: #242e47;
-  --font-main: 'Inter', 'Segoe UI', Arial, sans-serif;
+  --bg-top:   #122138;  /* About + Summary */
+  --bg-bot:   #091124;  /* Blocks below */
+  --accent:   #E3963F;
+  --text:     #EEEEEE;
+  --text-med: #CCCCCC;
+  --dot:      #B5D32E;
 }
 
-body {
-  background: var(--primary-bg);
-  color: var(--text-light);
-  font-family: var(--font-main);
-  margin: 0;
-  padding: 0;
-}
-
-.persona-container {
-  display: flex;
-  flex-wrap: wrap;
-  background: var(--primary-bg);
-  max-width: 900px;
-  margin: 32px auto;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 24px rgba(20,24,40,0.10);
-}
-
-.persona-img {
-  flex: 1 1 320px;
-  background: #aaa;
-  min-width: 300px;
-  max-width: 420px;
+*, *::before, *::after { box-sizing: border-box; }
+html, body {
   height: 100%;
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  overflow: hidden;
+  margin: 0;
 }
-.persona-img img {
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-bot);
+  color: var(--text);
+}
+
+/*──────────────────────────────────────────────────────────────────────────
+  Container grid: 3 cols, 2 rows (auto, auto), fill viewport height
+──────────────────────────────────────────────────────────────────────────*/
+.persona-container {
+  display: grid;
+  grid-template-columns: 4fr 3fr 3fr;
+  grid-template-rows: auto auto;
+  gap: 0;
+  height: 100vh;
+}
+
+/*──────────────────────────────────────────────────────────────────────────
+  Photo + gradient + overlay
+──────────────────────────────────────────────────────────────────────────*/
+.photo-container {
+  position: relative;
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  overflow: hidden;
+  align-self: stretch;
+}
+.persona-photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
-.persona-img .name-block {
+/* bottom gradient */
+.photo-container::after {
+  content: '';
   position: absolute;
-  left: 24px;
-  bottom: 32px;
-  background: rgba(25, 34, 58, 0.6);
-  border-radius: 8px;
-  padding: 18px 22px 12px 22px;
-  color: var(--text-light);
-  max-width: 85%;
+  bottom: 0; left: 0;
+  width: 100%; height: 30%;
+  background: linear-gradient(
+    to top,
+    rgba(228,97,90,0.85) 0%,
+    rgba(222,115,109,0.65) 35%,
+    transparent 100%
+  );
+  z-index: 1;
 }
-.persona-img .name-block h1 {
-  margin: 0 0 6px 0;
-  font-size: 2.5rem;
-  font-weight: 700;
-  letter-spacing: -1px;
-  line-height: 1.1;
-  color: var(--text-light);
+/* name above gradient */
+.name-overlay {
+  position: absolute;
+  bottom: 1rem; left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 2rem);
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 0 6px rgba(0,0,0,0.5);
+  z-index: 2;
 }
-.persona-img .name-block p {
+.name-overlay h1 {
   margin: 0;
-  font-size: 1.12rem;
-  font-weight: 400;
-  color: #f4f4f4;
-  opacity: 0.95;
+  font-size: 3rem;
+  font-weight: 700;
+}
+.name-overlay p {
+  margin: .25rem 0 0;
   font-style: italic;
+  font-size: 1.2rem;
 }
 
-.persona-info {
-  flex: 2 1 390px;
-  background: var(--primary-bg);
-  padding: 36px 32px 32px 32px;
+/*──────────────────────────────────────────────────────────────────────────
+  ABOUT (row 1, col 2)
+──────────────────────────────────────────────────────────────────────────*/
+.about {
+  /* grid-column: 2;
+  grid-row: 1; */
+  background-color: var(--bg-top);
+  padding: 2rem;
+}
+.about h2 {
+  margin-bottom: .5rem;
+  color: var(--accent);
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+}
+.about p {
+  line-height: 1.5;
+  color: var(--text-med);
+}
+
+/*──────────────────────────────────────────────────────────────────────────
+  SUMMARY (row 1, col 3)
+──────────────────────────────────────────────────────────────────────────*/
+.summary {
+  /* grid-column: 3;
+  grid-row: 1; */
+  background-color: var(--bg-top);
+  padding: 2rem;
   display: flex;
   flex-direction: column;
+}
+.summary .field {
+  display: flex;
   justify-content: space-between;
+  margin-bottom: .75rem;
+  border-bottom: 1px solid #4A5569;
 }
-
-.about-section {
-  margin-bottom: 18px;
-  font-size: 1.09rem;
-  line-height: 1.6;
+.summary .label {
+  font-style: italic;
+  font-size: .9rem;
 }
-
-.about-section .meta {
-  margin-top: 16px;
-  font-size: 0.98rem;
-  color: var(--text-gray);
+.summary .value {
+  font-weight: 500;
 }
-.about-section .meta span {
+.summary .rating span {
   display: inline-block;
-  margin-right: 18px;
-}
-.about-section .meta .dot {
-  font-size: 1.12em;
-  color: var(--accent-color);
-  vertical-align: middle;
-}
-.about-section .meta .stars {
-  color: #60ff87;
-  margin-left: 6px;
+  width: 10px;
+  height: 10px;
+  background-color: var(--dot);
+  border-radius: 50%;
+  margin-left: 4px;
 }
 
-.persona-grid {
+/*──────────────────────────────────────────────────────────────────────────
+  LEFT BLOCK: Tasks + Influences (row 2, col 2)
+──────────────────────────────────────────────────────────────────────────*/
+.left-block {
+  grid-column: 2;
+  grid-row: 2;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 26px 36px;
-  margin-top: 8px;
+  gap: 1.5rem;
+  background-color: var(--bg-bot);
+  padding: 2rem;
 }
-
-.block-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  color: var(--accent-color);
-  margin-bottom: 6px;
-  text-transform: uppercase;
+.left-block h2 {
+  color: var(--accent);
+  font-size: 1.25rem;
+  margin-bottom: .75rem;
+  letter-spacing: 1px;
 }
-ul, li {
+.left-block ul {
+  padding-left: 1rem;
   margin: 0;
-  padding: 0;
-  list-style: none;
 }
-.persona-info ul li {
-  margin-bottom: 6px;
+.left-block li {
   position: relative;
-  padding-left: 22px;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: var(--text-gray);
+  margin-bottom: .5rem;
+  padding-left: 1.2rem;
+  color: var(--text-med);
 }
-.persona-info ul li::before {
-  content: "";
-  display: inline-block;
-  position: absolute;
-  left: 0;
-  top: 7px;
-  width: 9px;
-  height: 9px;
+.left-block li::before {
+  content: '';
+  width: 8px; height: 8px;
+  background-color: var(--dot);
   border-radius: 50%;
-  background: var(--bullet-green);
+  position: absolute;
+  left: 0; top: .65em;
+  transform: translateY(-50%);
 }
 
-.persona-info .single-line {
-  color: var(--text-gray);
-  font-size: 1rem;
-  margin-bottom: 8px;
-  padding-left: 14px;
+/*──────────────────────────────────────────────────────────────────────────
+  RIGHT BLOCK: Feelings + Pain‑Goals (row 2, col 3)
+──────────────────────────────────────────────────────────────────────────*/
+.right-block {
+  grid-column: 3;
+  grid-row: 2;
+  display: grid;
+  gap: 1.5rem;
+  background-color: var(--bg-bot);
+  padding: 2rem;
+}
+/* Feelings share the same list styling as left-block */
+.right-block .feelings h2 {
+  color: var(--accent);
+  font-size: 1.25rem;
+  margin-bottom: .75rem;
+  letter-spacing: 1px;
+}
+.right-block .feelings ul {
+  padding-left: 1rem;
+  margin: 0;
+}
+.right-block .feelings li {
   position: relative;
+  margin-bottom: .5rem;
+  padding-left: 1.2rem;
+  color: var(--text-med);
 }
-.persona-info .single-line::before {
-  content: "";
-  display: inline-block;
-  position: absolute;
-  left: 0;
-  top: 8px;
-  width: 7px;
-  height: 7px;
+.right-block .feelings li::before {
+  content: '';
+  width: 8px; height: 8px;
+  background-color: var(--dot);
   border-radius: 50%;
-  background: var(--bullet-green);
+  position: absolute;
+  left: 0; top: .65em;
+  transform: translateY(-50%);
 }
 
-.goals-list li {
-  color: var(--text-light);
+/* Pain‑Points & Goals stacked inside right-block */
+.pain-goals {
+  display: flex;
+  flex-direction: column;
 }
-.painpoints-list li {
-  color: #ffcc66;
+.pain-goals .pain-points,
+.pain-goals .goals {
+  margin-top: 0;
+}
+.pain-goals .goals {
+  margin-top: 1.5rem;
+}
+.pain-goals h2 {
+  color: var(--accent);
+  font-size: 1.25rem;
+  margin-bottom: .75rem;
+  letter-spacing: 1px;
+}
+.pain-goals ul {
+  padding-left: 1rem;
+  margin: 0;
+}
+.pain-goals li {
+  position: relative;
+  margin-bottom: .5rem;
+  padding-left: 1.2rem;
+  color: var(--text-med);
+}
+.pain-goals li::before {
+  content: '';
+  width: 8px; height: 8px;
+  background-color: var(--dot);
+  border-radius: 50%;
+  position: absolute;
+  left: 0; top: .65em;
+  transform: translateY(-50%);
 }
 
-@media (max-width: 820px) {
+/*──────────────────────────────────────────────────────────────────────────
+  Responsive: single column
+──────────────────────────────────────────────────────────────────────────*/
+@media (max-width: 768px) {
   .persona-container {
-    flex-direction: column;
-    max-width: 96vw;
-  }
-  .persona-img {
-    max-width: none;
-    min-width: 100vw;
-    height: 330px;
-  }
-  .persona-info {
-    padding: 24px 18px 22px 18px;
-  }
-  .persona-grid {
     grid-template-columns: 1fr;
-    gap: 20px 0;
+    grid-template-rows: auto auto auto;
   }
-}
-
-@media (max-width: 520px) {
-  .persona-img {
-    height: 220px;
-  }
-  .persona-img .name-block {
-    left: 14px;
-    bottom: 18px;
-    padding: 10px 13px 8px 13px;
-  }
-  .persona-img .name-block h1 {
-    font-size: 1.4rem;
-  }
-  .persona-info {
-    padding: 12px 5vw 18px 5vw;
+  .photo-container,
+  .about,
+  .summary,
+  .left-block,
+  .right-block {
+    grid-column: 1 !important;
+    grid-row: auto !important;
   }
 }
